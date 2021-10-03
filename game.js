@@ -182,7 +182,7 @@ const textNodes = [
     },
     {
         id: 11,
-        text: 'Basile lance la pierre mystérieuse sur le dragon, une énorme explosion se produit et après le flash de lumière produit par la pierre le dragon se pétrifia. Basile étant victorieux, il décida de prendre contrôle du château et y vit avec sa princesse Gasparette.',
+        text: 'Basile lance la pierre mystérieuse sur le dragon, une énorme explosion se produit et après le flash de lumière produit par la pierre le dragon se pétrifia. Basile étant victorieux, il décida de prendre contrôle du château et d y vivre avec sa charmante princesse Gasparette.',
         options: [
             {
                 text: 'Félicitations. Basile a gagné la partie !',

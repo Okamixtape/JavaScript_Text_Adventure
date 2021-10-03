@@ -11,9 +11,11 @@ body {
     align-items: center;
     width: 100vw;
     height: 100vh;
-    background-image: url('images/background-dragon.jpg');
+    /* Select an image to display in the background of the game 
+    background-image: url('images/background-dragon.jpg'); 
     background-repeat: no-repeat;
-    background-size: cover;
+    background-size: cover; */
+    background-color: darkslategrey;
 }
 
 .container {
