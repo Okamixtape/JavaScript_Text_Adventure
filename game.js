@@ -1,28 +1,29 @@
 const textElement = document.getElementById('text')
 const optionButtonsElement = document.getElementById('option-buttons')
 
-let state = {}
+const state = {}
 
 function startGame() {
-    state = {}
+    Object.keys(state).forEach(key => delete state[key])
     showTextNode(1)
 }
 
 function showTextNode(textNodeIndex) {
     const textNode = textNodes.find(textNode => textNode.id === textNodeIndex)
-    textElement.innerText = textNode.text
+    textElement.textContent = textNode.text
+
+    document.body.style.backgroundImage = textNode.backgroundImage || "";
+
     while (optionButtonsElement.firstChild) {
         optionButtonsElement.removeChild(optionButtonsElement.firstChild)
     }
 
-    textNode.options.forEach(option => {
-        if (showOption(option)) {
-            const button = document.createElement('button')
-            button.innerText = option.text
-            button.classList.add('btn')
-            button.addEventListener('click', () => selectOption(option))
-            optionButtonsElement.appendChild(button)
-        }
+    textNode.options.filter(showOption).forEach(option => {
+        const button = document.createElement('button')
+        button.textContent = option.text
+        button.classList.add('btn')
+        button.addEventListener('click', () => selectOption(option))
+        optionButtonsElement.appendChild(button)
     })
 }
 
@@ -35,8 +36,12 @@ function selectOption(option) {
     if (nextTextNodeId <= 0) {
         return startGame()
     }
-    state = Object.assign(state, option.setState)
+    Object.assign(state, option.setState) 
     showTextNode(nextTextNodeId)
+}
+
+function generateBackgroundImageUrl(id) {
+    return `url('images/node_${id}.png')`;
 }
 
 const textNodes = [
@@ -190,6 +195,9 @@ const textNodes = [
             }
         ]
     }
-]
+].map(node => ({
+    ...node,
+    backgroundImage: generateBackgroundImageUrl(node.id)
+}));
 
 startGame()
