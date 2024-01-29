@@ -1,12 +1,25 @@
+const startPopup = document.getElementById('start-popup');
+const startButton = document.getElementById('start-button');
+const gameContent = document.getElementById('game-content');
 const textElement = document.getElementById('text')
 const optionButtonsElement = document.getElementById('option-buttons')
+const cancelButton = document.getElementById('cancel-button');
 
 const state = {}
 
 function startGame() {
     Object.keys(state).forEach(key => delete state[key])
-    showTextNode(1)
+    startPopup.style.display = 'flex';
+    gameContent.style.display = 'none';
 }
+
+startButton.addEventListener('click', () => {
+    startPopup.style.display = 'none'; // Cache la pop-up
+    gameContent.style.display = 'block';
+    showTextNode(1); // Commence le jeu
+});
+
+cancelButton.addEventListener('click', startGame);
 
 function showTextNode(textNodeIndex) {
     const textNode = textNodes.find(textNode => textNode.id === textNodeIndex)
@@ -47,109 +60,109 @@ function generateBackgroundImageUrl(id) {
 const textNodes = [
     {
         id: 1,
-        text: 'Basile se réveille dans une pièce sombre et mystérieuse, il aperçoit une curieuse pierre magique.',
+        text: 'You wake up in a dark and mysterious room, spotting a curious magic stone.',
         options: [
             {
-                text: 'Prendre la pierre',
+                text: 'Take the stone',
                 setState: { blackStone: true },
                 nextText: 2
             },
             {
-            text: 'Laisser la pierre',
-            nextText: 2
+                text: 'Leave the stone',
+                nextText: 2
             }
         ]
     },
     {
         id: 2,
-        text: 'Basile sort de la pièce et part pour une nouvelle aventure, à ce moment-là il croise un marchand itinérant.',
+        text: 'You leave the room and embark on a new adventure, where you come across a traveling merchant.',
         options: [
             {
-                text: 'Échanger la pierre mystérieuse contre une épée',
+                text: 'Trade the mysterious stone for a sword',
                 requiredState: (currentState) => currentState.blackStone,
                 setState: { blackStone: false, sword: true },
                 nextText: 3
             },
             {
-                text: 'Échanger la pierre mystérieuse contre un bouclier',
+                text: 'Trade the mysterious stone for a shield',
                 requiredState: (currentState) => currentState.blackStone,
                 setState: { blackStone: false, shield: true },
                 nextText: 3
             },
             {
-                text: 'Ignorer le marchand',
+                text: 'Ignore the merchant',
                 nextText: 3
             }
         ]
     },
     {
         id: 3,
-        text: 'Après avoir quitté le marchand, Basile commence à se sentir fatigué et arrive dans le petit village de Toki près duquel un imposant château demeure.',
+        text: 'After leaving the merchant, you start feeling tired and arrive at the small village of Toki, near an imposing castle.',
         options: [
             {
-                text: 'Explorer le château',
+                text: 'Explore the castle',
                 nextText: 4
             },
             {
-                text: 'Trouver une auberge pour se reposer',
+                text: 'Find an inn to rest',
                 nextText: 5
             },
             {
-                text: 'Trouver une étable et dormir sur un lit de paille ',
+                text: 'Find a stable and sleep on a bed of straw',
                 nextText: 6
             }
         ]
     },
     {
         id: 4,
-        text: 'Basile est tellement fatigué qu il s affale alors qu il explorait le château, dans son sommeil il est tué par un terrible monstre qui l avale tout cru.',
+        text: 'You are so tired that you collapse while exploring the castle. In your sleep, you are devoured by a terrible monster.',
         options: [
             {
-                text: 'Basile a perdu, il faut recommencer l aventure',
+                text: 'You have lost, you need to restart the adventure',
                 nextText: -1
             }
         ]
     },
     {
         id: 5,
-        text: 'Sans argent pour pouvoir louer une chambre Basile s introduit furtivement dans l auberge la plus proche et tombe de sommeil. Après s être endormi quelques heures, le gérant de l auberge le trouve endormi sur le lit, il appelle alors un garde pour l arrêter et le mettre au cachot.',
+        text: 'Without money for a room, you sneak into the nearest inn and fall asleep. A few hours later, the innkeeper finds you and calls a guard to arrest you.',
         options: [
             {
-                text: 'Basile a perdu, il faut recommencer l aventure',
+                text: 'You have lost, you need to restart the adventure',
                 nextText: -1
             }
         ]
     },
     {
         id: 6,
-        text: 'Basile se réveille en pleine forme après s être reposé dans l étable, prêt à explorer le château.',
+        text: 'You wake up feeling refreshed after resting in the stable, ready to explore the castle.',
         options: [
             {
-                text: 'Explorer le château',
+                text: 'Explore the castle',
                 nextText: 7
             }
         ]
     },
     {
         id: 7,
-        text: 'Alors que Basile explore le château, il tombe sur un horrible dragon doré crachant de l acide sulfurique. Que va-t-il faire ???',
+        text: 'While exploring the castle, you encounter a horrible golden dragon spewing sulfuric acid. What will you do?',
         options: [
             {
-                text: 'Essayer de s enfuir',
+                text: 'Try to run away',
                 nextText: 8
             },
             {
-                text: 'Attaquer le dragon avec l épée',
+                text: 'Attack the dragon with the sword',
                 requiredState: (currentState) => currentState.sword,
                 nextText: 9
             },
             {
-                text: 'Se cacher derrière le bouclier',
+                text: 'Hide behind the shield',
                 requiredState: (currentState) => currentState.shield,
                 nextText: 10
             },
             {
-                text: 'Lancer la pierre mystérieuse sur le dragon',
+                text: 'Throw the mysterious stone at the dragon',
                 requiredState: (currentState) => currentState.blackStone,
                 nextText: 11
             }
@@ -157,40 +170,90 @@ const textNodes = [
     },
     {
         id: 8,
-        text: 'Basile essaie de fuir mais il est rattrapé par une vague de magma qui l emporte sur le champ.',
+        text: 'You try to flee but are overtaken by a wave of magma.',
         options: [
             {
-                text: 'Basile a perdu, il faut recommencer l aventure',
+                text: 'You have lost, you need to restart the adventure',
                 nextText: -1
             }
         ]
     },
     {
         id: 9,
-        text: 'Basile avait vraiment cru que ce dragon pouvait avoir peur de son épée, qui pour lui ressemble à un cure dent argenté préparé pour son soupet ?',
+        text: 'You really thought the dragon would be scared of your sword, which looks like a toothpick to it?',
         options: [
             {
-                text: 'Basile a perdu, il faut recommencer l aventure',
+                text: 'You have lost, you need to restart the adventure',
                 nextText: -1
             }
         ]
     },
     {
         id: 10,
-        text: 'Le dragon rit au nez de Basile alors qu il essaye de se cacher derrière son bouclier.',
+        text: 'The dragon laughs in your face as you try to hide behind your shield.',
         options: [
             {
-                text: 'Basile a perdu, il faut recommencer l aventure',
+                text: 'You have lost, you need to restart the adventure',
                 nextText: -1
             }
         ]
     },
     {
         id: 11,
-        text: 'Basile lance la pierre mystérieuse sur le dragon, une énorme explosion se produit et après le flash de lumière produit par la pierre le dragon se pétrifia. Basile étant victorieux, il décida de prendre contrôle du château et d y vivre avec sa charmante princesse Gasparette.',
+        text: 'You throw the mysterious stone at the dragon, causing a huge explosion. After the light from the stone fades, the dragon turns to stone. Victorious, you decide to take over the castle and live there with the charming Princess Gasparette.',
         options: [
             {
-                text: 'Félicitations. Basile a gagné la partie !',
+                text: 'Congratulations. You have won the game!',
+                nextText: -1
+            }
+        ]
+    },
+    // New Nodes
+    {
+        id: 12,
+        text: "On your journey, you stumble upon a mysterious, ancient library hidden in the forest. It's rumored to contain powerful knowledge.",
+        options: [
+            {
+                text: 'Search the library for useful information or spells',
+                nextText: 13
+            },
+            {
+                text: 'Ignore the library and continue on your path',
+                nextText: 3
+            }
+        ]
+    },
+    {
+        id: 13,
+        text: 'Inside the library, you find a magical tome granting the power of invisibility.',
+        options: [
+            {
+                text: 'Take the tome and use its power',
+                setState: { invisibilityTome: true },
+                nextText: 3
+            },
+            {
+                text: 'Leave the tome and exit the library',
+                nextText: 3
+            }
+        ]
+    },
+    {
+        id: 14,
+        text: 'Using the tome, you become invisible and sneak past the dragon, discovering a hidden chamber filled with treasure and a map to a secret kingdom.',
+        options: [
+            {
+                text: 'Take the treasure and explore the secret kingdom',
+                nextText: 15
+            }
+        ]
+    },
+    {
+        id: 15,
+        text: 'The secret kingdom is a peaceful land in need of a hero. You are hailed as a savior and decide to stay and become their guardian.',
+        options: [
+            {
+                text: 'You have found a new home. Congratulations on winning the game!',
                 nextText: -1
             }
         ]

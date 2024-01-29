@@ -11,11 +11,19 @@ body {
     align-items: center;
     width: 100vw;
     height: 100vh;
-    /* Select an image to display in the background of the game 
-    background-image: url('images/background-dragon.jpg'); 
-    background-repeat: no-repeat;
-    background-size: cover; */
     background-color: darkslategrey;
+    background-size: cover;
+    background-repeat:no-repeat;
+    background-position: center center;
+}
+
+#start-popup {
+    flex-direction: column;
+    align-items: center;
+}
+
+.start-text {
+    font-weight: bold;
 }
 
 .container {
@@ -51,4 +59,11 @@ body {
 
 .btn:hover {
     border-color: lightgreen;
+}
+
+.cancel-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
